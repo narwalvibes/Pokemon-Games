@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Redirecting...</title>
+    <title>Opening Games...</title>
     <style>
         body {
             font-family: sans-serif;
@@ -17,21 +17,29 @@
         .message {
             text-align: center;
             color: #333;
+            max-width: 400px;
+            padding: 20px;
+        }
+        .countdown {
+            font-weight: bold;
+            color: #ff4757;
+            font-size: 1.2em;
         }
     </style>
 </head>
 <body>
 
     <div class="message">
-        <h2>Opening page...</h2>
-        <p>The current tab will attempt to close or clear shortly.</p>
+        <h2>Opening Game Tab...</h2>
+        <p>If the new tab didn't open, please look at your browser's address bar to <strong>allow pop-ups</strong>.</p>
+        <p>This page will clear automatically in <span id="timer" class="countdown">5</span> seconds.</p>
     </div>
 
     <script>
         (function() {
             const targetUrl = "https://playgbagames.vercel.app/";
 
-            // 1. Open the target site inside a new about:blank tab
+            // 1. Attempt to open the target site inside a new tab immediately
             const newTab = window.open("about:blank", "_blank");
 
             if (newTab) {
@@ -50,14 +58,28 @@
                 doc.body.appendChild(iframe);
             }
 
-            // 2. First attempt: Try to close/remove the current tab entirely
-            window.close();
+            // 2. Visual countdown timer for the user experience
+            let secondsLeft = 5;
+            const timerDisplay = document.getElementById("timer");
+            
+            const countdownInterval = setInterval(function() {
+                secondsLeft--;
+                if (timerDisplay) {
+                    timerDisplay.textContent = secondsLeft;
+                }
+                if (secondsLeft <= 0) {
+                    clearInterval(countdownInterval);
+                }
+            }, 1000);
 
-            // 3. Second attempt: If the browser blocks window.close(), 
-            // wait exactly 3 seconds (3000ms) and then turn the page into about:blank
+            // 3. Wait exactly 5 seconds (5000ms) before executing the destruction sequence
             setTimeout(function() {
+                // Try to close the tab entirely
+                window.close();
+
+                // Fallback: If window.close() is blocked, turn the current page into about:blank
                 window.location.replace("about:blank");
-            }, 3000);
+            }, 5000);
         })();
     </script>
 
