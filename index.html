@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redirecting...</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f4f4f9;
+        }
+        .message {
+            text-align: center;
+            color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="message">
+        <h2>Opening page...</h2>
+        <p>The current tab will attempt to close or clear shortly.</p>
+    </div>
+
+    <script>
+        (function() {
+            const targetUrl = "https://playgbagames.vercel.app/";
+
+            // 1. Open the target site inside a new about:blank tab
+            const newTab = window.open("about:blank", "_blank");
+
+            if (newTab) {
+                const doc = newTab.document;
+                doc.title = "Games";
+                doc.body.style.margin = "0";
+                doc.body.style.height = "100vh";
+                doc.body.style.overflow = "hidden";
+
+                const iframe = doc.createElement("iframe");
+                iframe.src = targetUrl;
+                iframe.style.width = "100%";
+                iframe.style.height = "100%";
+                iframe.style.border = "none";
+                
+                doc.body.appendChild(iframe);
+            }
+
+            // 2. First attempt: Try to close/remove the current tab entirely
+            window.close();
+
+            // 3. Second attempt: If the browser blocks window.close(), 
+            // wait exactly 3 seconds (3000ms) and then turn the page into about:blank
+            setTimeout(function() {
+                window.location.replace("about:blank");
+            }, 3000);
+        })();
+    </script>
+
+</body>
+</html>
