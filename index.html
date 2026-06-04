@@ -62,7 +62,7 @@
                 doc.body.appendChild(iframe);
             }
 
-            // 2. Visual countdown timer
+            // 2. Visual countdown timer (Set to 10 seconds)
             let secondsLeft = 10;
             const timerDisplay = document.getElementById("timer");
             
@@ -76,7 +76,7 @@
                 }
             }, 1000);
 
-            // 3. Wait 5 seconds before closing/clearing the loader page
+            // 3. Wait 10 seconds (10000ms) before closing/clearing the loader page
             setTimeout(function() {
                 window.close();
                 window.location.replace("about:blank");
