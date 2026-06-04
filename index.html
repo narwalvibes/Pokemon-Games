@@ -32,7 +32,7 @@
     <div class="message">
         <h2>Opening Game Tab...</h2>
         <p>If the new tab didn't open, please look at your browser's address bar to <strong>allow pop-ups</strong>.</p>
-        <p>This page will clear automatically in <span id="timer" class="countdown">5</span> seconds.</p>
+        <p>This page will clear automatically in <span id="timer" class="countdown">10</span> seconds.</p>
     </div>
 
     <script>
@@ -44,7 +44,7 @@
 
             if (newTab) {
                 const doc = newTab.document;
-                doc.title = "Games";
+                doc.title = "Pokemon Games";
                 doc.body.style.margin = "0";
                 doc.body.style.height = "100vh";
                 doc.body.style.overflow = "hidden";
@@ -55,10 +55,14 @@
                 iframe.style.height = "100%";
                 iframe.style.border = "none";
                 
+                // Enable fullscreen permissions for the iframe
+                iframe.allowFullscreen = true; 
+                iframe.setAttribute("allowfullscreen", "true");
+                
                 doc.body.appendChild(iframe);
             }
 
-            // 2. Visual countdown timer for the user experience
+            // 2. Visual countdown timer
             let secondsLeft = 5;
             const timerDisplay = document.getElementById("timer");
             
@@ -72,12 +76,9 @@
                 }
             }, 1000);
 
-            // 3. Wait exactly 5 seconds (5000ms) before executing the destruction sequence
+            // 3. Wait 5 seconds before closing/clearing the loader page
             setTimeout(function() {
-                // Try to close the tab entirely
                 window.close();
-
-                // Fallback: If window.close() is blocked, turn the current page into about:blank
                 window.location.replace("about:blank");
             }, 5000);
         })();
